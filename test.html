@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Socket.IO Rasa</title>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>Test Cliente Socket.IO para Rasa</h2>
+  <input id="msgInput" type="text" placeholder="Escribe un mensaje" />
+  <button onclick="sendMessage()">Enviar</button>
+
+  <div id="chatLog" style="margin-top:20px; border:1px solid #ccc; padding:10px; width:300px; height:200px; overflow:auto;"></div>
+
+  <script>
+    // Cambia la URL si es necesario
+    const socket = io('http://localhost:5005', {
+      path: '/socket.io',
+      transports: ['websocket', 'polling']
+    });
+
+    const sessionId = Math.random().toString(36).substring(2); // id aleatorio para la sesión
+
+    socket.on('connect', () => {
+      logMessage('Conectado al servidor Rasa con Socket.IO');
+      console.log('Conectado:', socket.id);
+    });
+
+    socket.on('bot_uttered', (data) => {
+      logMessage('Bot: ' + (data.text || JSON.stringify(data)));
+    });
+
+    socket.on('disconnect', () => {
+      logMessage('Desconectado del servidor');
+    });
+
+    function sendMessage() {
+      const input = document.getElementById('msgInput');
+      const message = input.value.trim();
+      if (message.length === 0) return;
+      
+      // Mostrar mensaje del usuario
+      logMessage('Usuario: ' + message);
+
+      // Enviar evento user_uttered con formato que usa Rasa Socket.IO channel
+      socket.emit('user_uttered', {
+        message: message,
+        session_id: sessionId,
+        customData: { language: 'es' }
+      });
+
+      input.value = '';
+    }
+
+    function logMessage(msg) {
+      const log = document.getElementById('chatLog');
+      log.innerHTML += msg + '<br />';
+      log.scrollTop = log.scrollHeight;
+    }
+  </script>
+</body>
+</html>

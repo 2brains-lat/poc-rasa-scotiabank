@@ -1,0 +1,68 @@
+version: "3.1"
+
+nlu:
+- intent: saludo
+  examples: |
+    - hola
+    - buenos días
+    - buenas tardes
+    - buenas noches
+    - ¿cómo estás?
+
+- intent: despedida
+  examples: |
+    - adiós
+    - hasta luego
+    - nos vemos
+
+- intent: pregunta_servicio
+  examples: |
+    - ¿qué servicios ofrecen?
+    - ¿me puedes ayudar?
+    - necesito soporte
+
+- intent: pregunta_hora
+  examples: |
+    - ¿qué hora es?
+    - dime la hora
+    - hora actual
+
+- intent: bloquear_tarjeta
+  examples: |
+    - quiero bloquear mi tarjeta
+    - necesito bloquear mi tarjeta
+    - ¿cómo bloqueo mi tarjeta?
+    - quiero bloquear mi tarjeta de crédito
+    - tengo que bloquear mi tarjeta de débito
+    - necesito ayuda para bloquear mi tarjeta
+    - ¿qué debo hacer para bloquear mi tarjeta?
+    - ¿puedes ayudarme a bloquear mi tarjeta?
+    - tengo problemas con mi tarjeta y necesito bloquearla
+    - bloquear tarjeta
+    - bloquear tarjeta de crédito
+    - bloquear tarjeta de débito
+    - bloquear tarjeta por robo
+    - bloquear tarjeta por pérdida
+    - bloquear tarjeta por fraude
+    - bloquear tarjeta por sospecha de fraude
+    - bloquear tarjeta por robo o pérdida
+    - bloquear tarjeta por robo o fraude
+    - bloquear tarjeta por robo o pérdida o fraude
+
+- intent: pregunta_uf
+  examples: |
+    - ¿cuál es el valor de la UF hoy?
+    - necesito saber el valor de la UF
+    - ¿qué valor tiene la UF en este momento?
+    - ¿me puedes dar el valor actual de la UF?
+    - ¿cuánto vale la UF hoy?
+    - ¿cuál es el valor de la UF en este momento?
+    - ¿qué precio tiene la UF hoy?
+    - ¿me puedes informar el valor de la UF?
+    - quiero saber el valor de la UF hoy
+    - quiero la uf
+
+
+
+
+

@@ -1,0 +1,22 @@
+{
+  "lookup": {
+    "rules": {
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}]": "utter_info_servicio",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}, {\"prev_action\": {\"action_name\": \"utter_info_servicio\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}]": "action_listen",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"saludo\"}}]": "utter_saludo",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"saludo\"}}, {\"prev_action\": {\"action_name\": \"utter_saludo\"}, \"user\": {\"intent\": \"saludo\"}}]": "action_listen"
+    },
+    "rule_only_slots": [],
+    "rule_only_loops": [],
+    "rules_for_loop_unhappy_path": {},
+    "rules_not_in_stories": [
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"saludo\"}}, {\"prev_action\": {\"action_name\": \"utter_saludo\"}, \"user\": {\"intent\": \"saludo\"}}]",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"saludo\"}}]",
+      "predicting default action with intent session_start",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}, {\"prev_action\": {\"action_name\": \"utter_info_servicio\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}]",
+      "predicting default action with intent restart",
+      "predicting default action with intent back",
+      "[{\"prev_action\": {\"action_name\": \"action_listen\"}, \"user\": {\"intent\": \"pregunta_servicio\"}}]"
+    ]
+  }
+}

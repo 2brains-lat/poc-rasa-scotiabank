@@ -1,0 +1,14 @@
+version: "3.1"
+
+stories:
+
+- story: usuario pregunta la hora
+  steps:
+    - intent: pregunta_hora
+    - action: action_dar_hora
+
+- story: usuario pregunta el valor de la UF
+  steps:
+    - intent: pregunta_uf
+    - action: action_consultar_uf
+

@@ -1,0 +1,27 @@
+version: "3.1"
+
+rules:
+
+- rule: Saludo simple
+  steps:
+    - intent: saludo
+    - action: utter_saludo
+
+- rule: Info servicio
+  steps:
+    - intent: pregunta_servicio
+    - action: utter_info_servicio
+
+- rule: Solicitud de bloqueo de tarjeta
+  steps:
+    - intent: bloquear_tarjeta
+    - action: bloquear_tarjeta_form
+    - active_loop: bloquear_tarjeta_form
+
+- rule: Enviar datos de bloqueo
+  condition:
+    - active_loop: bloquear_tarjeta_form
+  steps:
+    - action: bloquear_tarjeta_form
+    - active_loop: null
+    - action: action_procesar_bloqueo
