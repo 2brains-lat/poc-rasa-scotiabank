@@ -4,9 +4,9 @@ intents:
   - saludo
   - despedida
   - pregunta_servicio
-  - pregunta_hora
-  - pregunta_uf
   - bloquear_tarjeta
+  - pregunta_uf
+  - pregunta_hora
 
 
 responses:
@@ -16,23 +16,18 @@ responses:
     - text: "Hasta luego 👋"
   utter_info_servicio:
     - text: "Ofrecemos soporte técnico, ventas y consultas generales."
-  
   utter_ask_rut:
     - text: "Por favor, ingresa tu RUT (formato 12.345.678-9):"
   utter_ask_password:
     - text: "Ingresa tu contraseña (4 dígitos):"
-  utter_submit_bloqueo:
-    - text: "Gracias. Estamos procesando el bloqueo de tu tarjeta."
+  utter_ask_tarjeta:
+    - text: "¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto."
   utter_invalid_rut:
     - text: "El RUT ingresado no es válido. Intenta nuevamente."
   utter_invalid_password:
     - text: "La contraseña debe tener exactamente 4 dígitos."
-
-actions:
-  - action_dar_hora
-  - action_consultar_uf
-  - validate_bloquear_tarjeta_form
-  - action_procesar_bloqueo
+  utter_invalid_card_selection:
+    - text: "No reconocí esa tarjeta. Por favor, elige una de la lista mostrada."
 
 slots:
   rut:
@@ -41,8 +36,8 @@ slots:
     mappings:
       - type: from_text
         conditions:
-          - active_loop: bloquear_tarjeta_form
-            requested_slot: rut
+          - active_loop: autenticacion_form
+        not_intent: bloquear_tarjeta
 
   password:
     type: text
@@ -50,15 +45,37 @@ slots:
     mappings:
       - type: from_text
         conditions:
-          - active_loop: bloquear_tarjeta_form
-            requested_slot: password
+          - active_loop: autenticacion_form
+        not_intent: bloquear_tarjeta
+
+
+  tarjeta:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_text
+
+  tarjetas_disponibles:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: from_text
 
 forms:
-  bloquear_tarjeta_form:
+  autenticacion_form:
     required_slots:
       - rut
       - password
 
+  seleccionar_tarjeta_form:
+    required_slots:
+      - tarjeta
 
-
-
+actions:
+  - action_dar_hora
+  - action_consultar_uf
+  - validate_autenticacion_form
+  - validate_seleccionar_tarjeta_form
+  - action_mostrar_tarjetas
+  - action_procesar_bloqueo
+  - action_reset_bloqueo_slots
