@@ -1,3 +1,5 @@
+version: "3.1"
+
 rules:
 
 - rule: Saludo simple
@@ -10,25 +12,16 @@ rules:
     - intent: pregunta_servicio
     - action: utter_info_servicio
 
-- rule: Inicio de bloqueo - autenticación
-  steps:
-    - intent: bloquear_tarjeta
-    #- action: action_reset_bloqueo_slots
-    - action: autenticacion_form
-    - active_loop: autenticacion_form
+# - rule: Activar formulario de bloqueo de tarjeta
+#   steps:
+#     - intent: bloquear_tarjeta
+#     - action: bloquear_tarjeta_form
+#     - active_loop: bloquear_tarjeta_form
 
-- rule: Finalizar autenticación y mostrar tarjetas
-  condition:
-    - active_loop: autenticacion_form
-  steps:
-    - action: autenticacion_form
-    - active_loop: null
-    - action: action_mostrar_tarjetas
-
-- rule: Seleccionar tarjeta para bloqueo
-  condition:
-    - active_loop: seleccionar_tarjeta_form
-  steps:
-    - action: seleccionar_tarjeta_form
-    - active_loop: null
-    - action: action_procesar_bloqueo
+# - rule: Procesar bloqueo después del formulario
+#   condition:
+#     - active_loop: bloquear_tarjeta_form
+#   steps:
+#     - action: bloquear_tarjeta_form
+#     - active_loop: null
+#     - action: action_procesar_bloqueo

@@ -7,6 +7,7 @@ intents:
   - bloquear_tarjeta
   - pregunta_uf
   - pregunta_hora
+  - inform
 
 
 responses:
@@ -29,6 +30,13 @@ responses:
   utter_invalid_card_selection:
     - text: "No reconocí esa tarjeta. Por favor, elige una de la lista mostrada."
 
+
+actions:
+  - action_dar_hora
+  - action_consultar_uf
+  - validate_bloquear_tarjeta_form
+  - action_procesar_bloqueo
+
 slots:
   rut:
     type: text
@@ -36,8 +44,8 @@ slots:
     mappings:
       - type: from_text
         conditions:
-          - active_loop: autenticacion_form
-        not_intent: bloquear_tarjeta
+          - active_loop: bloquear_tarjeta_form
+            requested_slot: rut
 
   password:
     type: text
@@ -45,37 +53,14 @@ slots:
     mappings:
       - type: from_text
         conditions:
-          - active_loop: autenticacion_form
-        not_intent: bloquear_tarjeta
+          - active_loop: bloquear_tarjeta_form
+            requested_slot: password
 
 
-  tarjeta:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_text
-
-  tarjetas_disponibles:
-    type: list
-    influence_conversation: false
-    mappings:
-      - type: from_text
 
 forms:
-  autenticacion_form:
+  bloquear_tarjeta_form:
     required_slots:
       - rut
       - password
 
-  seleccionar_tarjeta_form:
-    required_slots:
-      - tarjeta
-
-actions:
-  - action_dar_hora
-  - action_consultar_uf
-  - validate_autenticacion_form
-  - validate_seleccionar_tarjeta_form
-  - action_mostrar_tarjetas
-  - action_procesar_bloqueo
-  - action_reset_bloqueo_slots
