@@ -12,11 +12,32 @@ stories:
     - intent: pregunta_uf
     - action: action_consultar_uf
 
-- story: Bloquear tarjeta con formulario
+- story: Bloquear tarjeta con formulario - éxito
   steps:
     - intent: bloquear_tarjeta
     - action: bloquear_tarjeta_form
     - active_loop: bloquear_tarjeta_form
-    # El formulario se encarga de pedir rut y password
+    - active_loop: null
+    - action: action_procesar_bloqueo
+
+- story: Bloquear tarjeta con formulario - falla tras 3 intentos
+  steps:
+    - intent: bloquear_tarjeta
+    - action: bloquear_tarjeta_form
+    - active_loop: bloquear_tarjeta_form
+    # El usuario falla la autenticación 3 veces
+    - slot_was_set:
+        - auth_fail_count: 3
+    - active_loop: null
+    - action: utter_despedida
+    - action: action_restart
+
+- story: Bloqueo completo con cierre forzado
+  steps:
+    - intent: bloquear_tarjeta
+    - action: bloquear_tarjeta_form
+    - active_loop: bloquear_tarjeta_form
+    - slot_was_set:
+        - tarjeta: "3333-4444-5555-6666"
     - active_loop: null
     - action: action_procesar_bloqueo

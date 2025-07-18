@@ -53,10 +53,33 @@ slots:
         conditions:
           - active_loop: bloquear_tarjeta_form
             requested_slot: password
+  
+  tarjeta:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: bloquear_tarjeta_form
+            requested_slot: tarjeta
+
+  opciones_tarjetas:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  auth_fail_count:
+    type: float
+    initial_value: 0
+    influence_conversation: false
+    mappings:
+      - type: custom
 
 forms:
   bloquear_tarjeta_form:
     required_slots:
       - rut
       - password
-
+      - tarjeta
+  
