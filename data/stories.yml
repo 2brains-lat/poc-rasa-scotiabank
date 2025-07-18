@@ -12,30 +12,11 @@ stories:
     - intent: pregunta_uf
     - action: action_consultar_uf
 
-# - story: Bloquear tarjeta con formulario
-#   steps:
-#     - intent: bloquear_tarjeta
-#     - action: bloquear_tarjeta_form
-#     - active_loop: bloquear_tarjeta_form
-#     - active_loop: null
-#     - action: action_procesar_bloqueo
-
 - story: Bloquear tarjeta con formulario
   steps:
     - intent: bloquear_tarjeta
     - action: bloquear_tarjeta_form
     - active_loop: bloquear_tarjeta_form
-
-    - intent: inform
-      entities:
-        - rut: "13897049-3"
-    - action: bloquear_tarjeta_form
-    - active_loop: bloquear_tarjeta_form
-
-    - intent: inform
-      entities:
-        - password: "1234"
-    - action: bloquear_tarjeta_form
+    # El formulario se encarga de pedir rut y password
     - active_loop: null
-
     - action: action_procesar_bloqueo
