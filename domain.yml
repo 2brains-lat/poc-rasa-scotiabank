@@ -2,12 +2,12 @@ version: "3.1"
 
 intents:
   - saludo
-  - despedida
+#  - despedida
   - pregunta_servicio
   - bloquear_tarjeta
   - pregunta_uf
   - pregunta_hora
-  - inform
+#  - inform
 
 
 responses:
@@ -55,8 +55,6 @@ slots:
         conditions:
           - active_loop: bloquear_tarjeta_form
             requested_slot: password
-
-
 
 forms:
   bloquear_tarjeta_form:

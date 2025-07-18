@@ -9,11 +9,11 @@ nlu:
     - buenas noches
     - ¿cómo estás?
 
-- intent: despedida
-  examples: |
-    - adiós
-    - hasta luego
-    - nos vemos
+# - intent: despedida
+#   examples: |
+#     - adiós
+#     - hasta luego
+#     - nos vemos
 
 - intent: pregunta_servicio
   examples: |
@@ -62,27 +62,27 @@ nlu:
     - quiero saber el valor de la UF hoy
     - quiero la uf
 
-- intent: inform
-  examples: |
-    - 13897049-3 (rut)
-    - 1234 (password)
-    - 12.345.678-9 (rut)
-    - 0000 (password)
-    - 1234 (password)
-    - 13.123.456-7 (rut)
-    - 25678956-2 (rut)
-    - 98765432-1 (rut)
-    - 1234 (password)
-    - 4321 (password)
-    - 5678 (password)
+# - intent: inform
+#   examples: |
+#     - 13897049-3 (rut)
+#     - 1234 (password)
+#     - 12.345.678-9 (rut)
+#     - 0000 (password)
+#     - 1234 (password)
+#     - 13.123.456-7 (rut)
+#     - 25678956-2 (rut)
+#     - 98765432-1 (rut)
+#     - 1234 (password)
+#     - 4321 (password)
+#     - 5678 (password)
     
-- regex: rut
-  examples: |
-    - \d{1,2}\.?\d{3}\.?\d{3}-[\dkK]
+# - regex: rut
+#   examples: |
+#     - \d{1,2}\.?\d{3}\.?\d{3}-[\dkK]
 
-- regex: password
-  examples: |
-    - \d{4}
+# - regex: password
+#   examples: |
+#     - \d{4}
 
 
 
