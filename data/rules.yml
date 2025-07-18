@@ -11,17 +11,3 @@ rules:
   steps:
     - intent: pregunta_servicio
     - action: utter_info_servicio
-
-# - rule: Activar formulario de bloqueo de tarjeta
-#   steps:
-#     - intent: bloquear_tarjeta
-#     - action: bloquear_tarjeta_form
-#     - active_loop: bloquear_tarjeta_form
-
-# - rule: Procesar bloqueo después del formulario
-#   condition:
-#     - active_loop: bloquear_tarjeta_form
-#   steps:
-#     - action: bloquear_tarjeta_form
-#     - active_loop: null
-#     - action: action_procesar_bloqueo
