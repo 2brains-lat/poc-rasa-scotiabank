@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Text
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
+from rasa_sdk.events import SlotSet
 
 logger = logging.getLogger(__name__)
 
@@ -18,4 +19,10 @@ class ActionProcesarBloqueo(Action):
         # Llamada al servicio dummy (aquí solo simulado)
         logger.info(f"Procesando bloqueo para RUT: {rut}, Tarjeta: {tarjeta}")
         dispatcher.utter_message(text="Estamos procesando tu bloqueo.")
-        return []
+        # Aquí podrías agregar lógica para interactuar con un servicio externo
+        # o realizar alguna acción adicional.        
+        return [
+            SlotSet("tarjeta", None),
+            SlotSet("opciones_tarjetas", None),
+            SlotSet("auth_fail_count", 0),
+        ]
