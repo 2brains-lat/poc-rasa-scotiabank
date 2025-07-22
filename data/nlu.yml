@@ -32,7 +32,6 @@ nlu:
     - ¿qué debo hacer para bloquear mi tarjeta?
     - ¿puedes ayudarme a bloquear mi tarjeta?
     - tengo problemas con mi tarjeta y necesito bloquearla
-    - bloquear tarjeta
     - bloquear tarjeta de crédito
     - bloquear tarjeta de débito
     - bloquear tarjeta por robo
@@ -54,8 +53,6 @@ nlu:
     - ¿qué precio tiene la UF hoy?
     - ¿me puedes informar el valor de la UF?
     - quiero saber el valor de la UF hoy
-    - quiero la uf
-
 
 
 

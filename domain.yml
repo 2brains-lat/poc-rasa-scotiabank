@@ -19,8 +19,8 @@ responses:
     - text: "Por favor, ingresa tu RUT (formato 12.345.678-9):"
   utter_ask_password:
     - text: "Ingresa tu contraseña (4 dígitos):"
-  utter_ask_tarjeta:
-    - text: "¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto."
+  # utter_ask_tarjeta:
+  #   - text: "¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto."
   utter_invalid_rut:
     - text: "El RUT ingresado no es válido. Intenta nuevamente."
   utter_invalid_password:

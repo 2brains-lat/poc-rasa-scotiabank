@@ -20,17 +20,16 @@ stories:
     - active_loop: null
     - action: action_procesar_bloqueo
 
-- story: Bloquear tarjeta con formulario - falla tras 3 intentos
-  steps:
-    - intent: bloquear_tarjeta
-    - action: bloquear_tarjeta_form
-    - active_loop: bloquear_tarjeta_form
-    # El usuario falla la autenticación 3 veces
-    - slot_was_set:
-        - auth_fail_count: 3
-    - active_loop: null
-    - action: utter_despedida
-    - action: action_restart
+# - story: Bloquear tarjeta con formulario - falla tras 3 intentos
+#   steps:
+#     - intent: bloquear_tarjeta
+#     - action: bloquear_tarjeta_form
+#     - active_loop: bloquear_tarjeta_form
+#     - slot_was_set:
+#         - auth_fail_count: 3
+#     - active_loop: null
+#     - action: utter_despedida
+#     - action: action_restart
 
 - story: Bloqueo completo con cierre forzado
   steps:

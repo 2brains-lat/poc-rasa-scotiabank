@@ -3,6 +3,7 @@ from typing import Any, Dict, Text
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
+from rasa_sdk.events import SlotSet, ActiveLoop, Restarted
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,22 @@ def cargar_tarjetas():
         tarjetas[cabecera] = [linea.strip("- ").strip() for linea in lineas[1:]]
     logger.debug(f"Tarjetas cargadas: {tarjetas}")  
     return tarjetas
+
+def generar_clave_normalizada(rut: str, password: str) -> str:
+    """
+    Normaliza un RUT chileno (quita puntos y guión, deja DV separado con guión)
+    y genera la clave en formato "12345678-9|password".
+    """
+    rut_limpio = rut.replace(".", "").replace("-", "").upper()
+    
+    if not rut_limpio or len(rut_limpio) < 2:
+        return ""  # No es un RUT válido
+
+    cuerpo = rut_limpio[:-1]
+    dv = rut_limpio[-1]
+    rut_normalizado = f"{cuerpo}-{dv}"
+    
+    return f"{rut_normalizado}|{password}"
 
 def validar_rut_chileno(rut: str) -> bool:
     logger.debug(f"Validando RUT chileno: {rut}")
@@ -77,44 +94,71 @@ class ValidateBloquearTarjetaForm(FormValidationAction):
             fail_count = tracker.get_slot("auth_fail_count") or 0
             if rut and password:
                 tarjetas = cargar_tarjetas()
-                clave = f"{rut}|{password}"
+                clave = generar_clave_normalizada(rut, password)
                 if clave in tarjetas:
                     logger.debug(f"Clave encontrada: {clave}")
                     # Mostrar tarjetas disponibles
                     tarjetas_disponibles = tarjetas[clave]
                     if tarjetas_disponibles:
+                        logger.info(f"Tarjetas disponibles para el RUT {rut}: {tarjetas_disponibles}")
                         tarjetas_formateadas = "\n".join(f"- {t}" for t in tarjetas_disponibles)
                         dispatcher.utter_message(text="¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto:")
                         dispatcher.utter_message(text=tarjetas_formateadas)
+                        return {
+                            "rut": rut,
+                            "password": slot_value,
+                            "tarjeta": None,
+                            "requested_slot": "tarjeta",
+                            "auth_fail_count": 0,
+                            "opciones_tarjetas": tarjetas_disponibles
+                        }
                     else:
+                        logger.info("No se encontraron tarjetas asociadas.")
                         dispatcher.utter_message(text="No tienes tarjetas asociadas a tu cuenta.")
-                    return {
-                        "rut": rut,
-                        "password": slot_value,
-                        "auth_fail_count": 0,  # Reinicia el contador
-                        "opciones_tarjetas": tarjetas_disponibles 
-                    }
+                        return {
+                            "rut": None,
+                            "password": None,
+                            "tarjeta": None,
+                            "requested_slot": None,
+                            "auth_fail_count": 0,
+                            "opciones_tarjetas": None
+                        }
                 else:
+                    keys = tarjetas.keys()
+                    logger.debug(f"Claves disponibles: {keys}") 
+                    if(clave in tarjetas.keys()):
+                        logger.debug(f"Clave encontrada pero sin tarjetas: {clave}")
+                        dispatcher.utter_message(text="No tienes tarjetas asociadas a tu cuenta.")
+                        return {
+                            "rut": None,
+                            "password": None,
+                            "tarjeta": None,
+                            "requested_slot": None,
+                            "auth_fail_count": 0,
+                            "opciones_tarjetas": None
+                        }
+                    
                     logger.debug(f"Clave no encontrada: {clave}")
                     dispatcher.utter_message(text="El RUT o la contraseña no coinciden con nuestros registros.")
                     fail_count += 1
                     if fail_count >= 3:
                         dispatcher.utter_message(text="Has fallado 3 veces. Por favor, contacta a un agente para desbloquear tu tarjeta.")
                         return {
-                                "rut": None,
-                                "password": None,
-                                "auth_fail_count": 0,
-                                "requested_slot": None
-                            }
+                            "rut": None,
+                            "password": None,
+                            "requested_slot": None,
+                            "auth_fail_count": fail_count
+                        }
                     else:
                         dispatcher.utter_message(text=f"Intento fallido {fail_count}/3. Por favor, intenta nuevamente.")
-                    return {"rut": rut, "password": None, "auth_fail_count": fail_count}
-            # finalmente, si el usuario existe, se retorna el slot_value
-            # logger.debug(f"Contraseña válida: {slot_value}")
-            # return {"password": slot_value, "auth_fail_count": 0}
+                    return {
+                            "rut": rut,
+                            "password": None,
+                            "auth_fail_count": fail_count
+                        }
         else:
             dispatcher.utter_message(text="La contraseña debe tener exactamente 4 dígitos.")
-            return {"password": None}
+            return [SlotSet("password", None)]
     
     def validate_tarjeta(
         self,
@@ -124,13 +168,15 @@ class ValidateBloquearTarjetaForm(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Text, Any]:
         opciones = tracker.get_slot("opciones_tarjetas")
+        logger.info(f"Tarjeta seleccionada: {slot_value}")
+        logger.info(f"Opciones de tarjetas disponibles: {opciones}")
         if not opciones:
-            logger.debug("No hay tarjetas disponibles para bloquear.")  
+            logger.info("No hay tarjetas disponibles para bloquear.")  
             dispatcher.utter_message(text="No se encontraron tarjetas asociadas.")
             return {"tarjeta": None}
 
         if slot_value in opciones:
-            logger.debug(f"Tarjeta seleccionada: {slot_value}")
+            logger.info(f"Tarjeta seleccionada: {slot_value}")
             return {
                 "tarjeta": slot_value,
                 "requested_slot": None  # Esto indica que el formulario está completo
