@@ -1,4 +1,31 @@
+# Entorno virtual
+venv/
+.env/
+.venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Rasa
+models/              # modelos entrenados (puedes versionarlos si lo deseas)
+*.db                 # bases de datos locales
+*.log                # archivos de log
+*.lock               # archivos de bloqueo
+
+# Archivos de pruebas y cache
+.rasa/
+.cache/
+.idea/               # configuración de PyCharm/IntelliJ
+.vscode/             # configuración de VSCode
+tests/.pytest_cache/
+
+# Otros posibles artefactos
 *.tar.gz
-*.gz
-*.tar
-.rasa/*
+*.tgz
