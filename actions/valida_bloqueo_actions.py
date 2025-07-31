@@ -101,9 +101,15 @@ class ValidateBloquearTarjetaForm(FormValidationAction):
                     tarjetas_disponibles = tarjetas[clave]
                     if tarjetas_disponibles:
                         logger.info(f"Tarjetas disponibles para el RUT {rut}: {tarjetas_disponibles}")
-                        tarjetas_formateadas = "\n".join(f"- {t}" for t in tarjetas_disponibles)
-                        dispatcher.utter_message(text="¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto:")
-                        dispatcher.utter_message(text=tarjetas_formateadas)
+                        # tarjetas_formateadas = "\n".join(f"- {t}" for t in tarjetas_disponibles)
+                        # dispatcher.utter_message(text="¿Cuál de estas tarjetas deseas bloquear? Ingresa el número exacto:")
+                        # dispatcher.utter_message(text=tarjetas_formateadas)
+                        botones_tarjetas = [{"title": t, "payload": t} for t in tarjetas_disponibles]
+                        logger.info(f"Botones de tarjetas: {botones_tarjetas}")
+                        dispatcher.utter_message(
+                            text="¿Cuál de estas tarjetas deseas bloquear?",
+                            buttons=botones_tarjetas
+                        )
                         return {
                             "rut": rut,
                             "password": slot_value,

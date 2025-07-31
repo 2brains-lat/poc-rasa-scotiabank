@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mapa básico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; }
+    #map { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoia2FvbG9uZ2NvcyIsImEiOiJjbWRvcnV1MWcwNHV1MmpvZmp2ZWJmcmZ1In0.nCAvdEZSQQk8ruP1GmikHQ';
+
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-70.57577, -33.61169], // ✅ Longitud, Latitud
+    zoom: 12
+  });
+
+  map.addControl(new mapboxgl.NavigationControl());
+
+  new mapboxgl.Marker()
+    .setLngLat([-70.57577, -33.61169]) // ✅ Longitud, Latitud
+    .setPopup(new mapboxgl.Popup().setHTML("<h3>¡Hola desde Santiago!</h3>"))
+    .addTo(map);
+</script>
+
+</body>
+</html>

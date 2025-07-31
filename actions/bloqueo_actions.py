@@ -1,4 +1,5 @@
 import logging
+import requests
 from pdb import Restart
 from typing import Any, Dict, List, Text
 from rasa_sdk import Action, Tracker
@@ -30,6 +31,40 @@ class ActionProcesarBloqueo(Action):
         logger.info(f"Datos recibidos: RUT={rut}, Tarjeta={tarjeta}, Intentos={intentos}")
         # Llamada al servicio dummy (aquí solo simulado)
         logger.info(f"Procesando bloqueo para RUT: {rut}, Tarjeta: {tarjeta}")
+        
+        # llamada a servicio externo o lógica de negocio
+        # Datos
+        API_KEY = 'N9ye282b6pgor4eoH0f'
+        DOMAIN = '2brains'  # solo la parte antes de .freshdesk.com
+
+        # URL del endpoint
+        url = f'https://{DOMAIN}.freshdesk.com/api/v2/tickets'
+
+        # Datos del ticket
+        ticket_data = {
+            "email": "cliente@ejemplo.com",
+            "subject": f"Prueba de creación de ticket para RUT {rut}",
+            "description": f"Solicitud de bloqueo de tarjeta para el RUT {rut}. Tarjeta: {tarjeta}",
+            "status": 2,  # 2 = Open
+            "priority": 1  # 1 = Low
+        }
+
+        # Headers y autenticación básica con API Key
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.post(url, json=ticket_data, headers=headers, auth=(API_KEY, 'X'))
+
+        if response.status_code == 201:
+            print("Ticket creado exitosamente")
+            print("ID del ticket:", response.json()['id'])
+        else:
+            print("Error creando ticket:", response.status_code)
+            print(response.text)        
+        
+        
+        
         dispatcher.utter_message(text="Estamos procesando tu bloqueo.")
         # Aquí podrías agregar lógica para interactuar con un servicio externo
         # o realizar alguna acción adicional.        

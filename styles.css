@@ -60,3 +60,18 @@ header p {
     max-width: 150px;
   }
 }
+
+.chat-button-option {
+  background: #f0f0f0;
+  border: 1px solid var(--primary, #007BFF);
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-button-option:hover {
+  background: var(--primary, #007BFF);
+  color: white;
+}
